@@ -27,9 +27,9 @@ class AddressesController < ApplicationController
     @existing_address = Address.where('address LIKE ?', "#{params[:address][:address]}%")
     if @existing_address.present?
       puts @existing_address.as_json
-      @new_address = @existing_address.take.dup
-      @new_address.save
-      redirect_to root_path
+      @address = @existing_address.take.dup
+      @address.save
+      # redirect_to root_path
     else
       @address = Address.new(address_params)
       address = params[:address][:address]
@@ -41,15 +41,19 @@ class AddressesController < ApplicationController
       # redirect_to root_path
       @address.latitude = lat
       @address.longitude = lng
-      respond_to do |format|
-        if @address.save
-          format.html { redirect_to @address, notice: 'Address was successfully created.' }
-          format.json { render :show, status: :created, location: @address }
-        else
-          format.html { render :new }
-          format.json { render json: @address.errors, status: :unprocessable_entity }
-        end
-      end
+      @address.save
+      # respond_to do |format|
+      #   if @address.save
+      #     format.html { redirect_to @address, notice: 'Address was successfully created.' }
+      #     format.json { render :show, status: :created, location: @address }
+      #   else
+      #     format.html { render :new }
+      #     format.json { render json: @address.errors, status: :unprocessable_entity }
+      #   end
+      # end
+    end
+    respond_to do |format|
+      format.js
     end
   end
 
