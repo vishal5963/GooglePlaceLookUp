@@ -32,19 +32,19 @@ class AddressesController < ApplicationController
       # redirect_to root_path
     else
       @address = Address.new(address_params)
-      Random_array = [true, false]
-      Serverlookup = Random_array.sample
-      If Serverlookup == true
-      address = params[:address][:address]
-      puts "______"
-      puts Geocoder.coordinates(address).as_json
-      lat = Geocoder.coordinates(address).first
-      lng = Geocoder.coordinates(address).last
-      puts "********#{lat}************#{lng}************"
+      random_array = [true, false]
+      serverlookup = random_array.sample
+      if serverlookup == true
+        address = params[:address][:address]
+        puts "______"
+        puts Geocoder.coordinates(address).as_json
+        lat = Geocoder.coordinates(address).first
+        lng = Geocoder.coordinates(address).last
+        puts "********#{lat}************#{lng}************"
       # redirect_to root_path
-      
+
       else
-      
+
       Random creation of lat n lan
       end
       @address.latitude = lat
