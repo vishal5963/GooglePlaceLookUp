@@ -1,5 +1,6 @@
 class AddressesController < ApplicationController
   before_action :set_address, only: [:show, :edit, :update, :destroy]
+  before_action :redirect_to_new, except: [:new, :create]
 
   # GET /addresses
   # GET /addresses.json
@@ -29,36 +30,15 @@ class AddressesController < ApplicationController
       puts @existing_address.as_json
       @address = @existing_address.take.dup
       @address.save
-      # redirect_to root_path
     else
       @address = Address.new(address_params)
-      random_array = [true, false]
-      serverlookup = random_array.sample
-      if serverlookup == true
-        address = params[:address][:address]
-        puts "______"
-        puts Geocoder.coordinates(address).as_json
-        lat = Geocoder.coordinates(address).first
-        lng = Geocoder.coordinates(address).last
-        puts "********#{lat}************#{lng}************"
-      # redirect_to root_path
-
-      else
-
-      Random creation of lat n lan
-      end
+      address = params[:address][:address]
+      puts Geocoder.coordinates(address).as_json
+      lat = Geocoder.coordinates(address).first
+      lng = Geocoder.coordinates(address).last
       @address.latitude = lat
       @address.longitude = lng
       @address.save
-      # respond_to do |format|
-      #   if @address.save
-      #     format.html { redirect_to @address, notice: 'Address was successfully created.' }
-      #     format.json { render :show, status: :created, location: @address }
-      #   else
-      #     format.html { render :new }
-      #     format.json { render json: @address.errors, status: :unprocessable_entity }
-      #   end
-      # end
     end
     respond_to do |format|
       format.js
@@ -98,5 +78,9 @@ class AddressesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def address_params
       params.require(:address).permit(:address, :latitude, :longitude)
+    end
+
+    def redirect_to_new
+      redirect_to root_path
     end
 end

@@ -11,19 +11,11 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="form-group">
     <%= f.label :address %><br>
-    <%= f.text_field :address %>
+    <%= f.text_field :address, class: "form-control" %>
   </div>
-  <!-- <div class="field">
-    <%#= f.label :latitude %><br>
-    <%#= f.text_field :latitude %>
-  </div> -->
-  <!-- <div class="field">
-    <%#= f.label :longitude %><br>
-    <%#= f.text_field :longitude %>
-  </div> -->
   <div class="actions">
-    <%= f.submit "Submit" %>
+    <%= f.submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>

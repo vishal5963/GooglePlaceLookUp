@@ -1,2 +1,2 @@
-
-$("form").append("<p>"+<%= @address.latitude %> +" - "+<%= @address.longitude %> +"</p>")
+$("#address_address").val('');
+$("form").append("<p><b>Latitude: </b>"+<%= @address.latitude %> +" <br><b>Longitude: </b>"+<%= @address.longitude %> +"</p>")
