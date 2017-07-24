@@ -28,7 +28,7 @@ class AddressesController < ApplicationController
     if @existing_address.present?
       puts @existing_address.as_json
       @address = @existing_address.take.dup
-      @address.save
+      # @address.save
       # redirect_to root_path
     else
       @address = Address.new(address_params)
