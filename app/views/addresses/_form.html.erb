@@ -13,9 +13,10 @@
 
   <div class="form-group">
     <%= f.label :address %><br>
-    <%= f.text_field :address, class: "form-control" %>
+    <%= f.text_field :address, class: "form-control", autocomplete: false %>
   </div>
   <div class="actions">
     <%= f.submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>
+<p class="lat-long-data"></p>

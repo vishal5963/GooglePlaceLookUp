@@ -27,7 +27,6 @@ class AddressesController < ApplicationController
   def create
     @existing_address = Address.where('address LIKE ?', "#{params[:address][:address]}%")
     if @existing_address.present?
-      puts @existing_address.as_json
       @address = @existing_address.take.dup
     else
       @address = Address.new(address_params)
@@ -35,8 +34,6 @@ class AddressesController < ApplicationController
       serverlookup = random_array.sample
       if serverlookup == true
         address = params[:address][:address]
-        puts "______"
-        puts Geocoder.coordinates(address).as_json
         lat = Geocoder.coordinates(address).first
         lng = Geocoder.coordinates(address).last
       else
