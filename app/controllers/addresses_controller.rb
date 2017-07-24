@@ -29,13 +29,21 @@ class AddressesController < ApplicationController
     if @existing_address.present?
       puts @existing_address.as_json
       @address = @existing_address.take.dup
-      @address.save
     else
       @address = Address.new(address_params)
-      address = params[:address][:address]
-      puts Geocoder.coordinates(address).as_json
-      lat = Geocoder.coordinates(address).first
-      lng = Geocoder.coordinates(address).last
+      random_array = [true, false]
+      serverlookup = random_array.sample
+      if serverlookup == true
+        address = params[:address][:address]
+        puts "______"
+        puts Geocoder.coordinates(address).as_json
+        lat = Geocoder.coordinates(address).first
+        lng = Geocoder.coordinates(address).last
+      else
+        # (30.730032 , -170.859375)
+        lat =  random_location(-170.859375,30.730032,100)[1]
+        lng =  random_location(-170.859375,30.730032,100)[0]
+      end
       @address.latitude = lat
       @address.longitude = lng
       @address.save
@@ -80,7 +88,23 @@ class AddressesController < ApplicationController
       params.require(:address).permit(:address, :latitude, :longitude)
     end
 
+
     def redirect_to_new
       redirect_to root_path
+    end
+
+    def random_point_in_disk(max_radius)
+      r = max_radius * rand**0.5
+      theta = rand * 2 * Math::PI
+      [r * Math.cos(theta), r * Math.sin(theta)]
+    end
+
+    def random_location(lon, lat, max_radius)
+      earth_radius = 6371 # km
+      one_degree = earth_radius * 2 * Math::PI / 360 * 1000 # 1° latitude in meters
+      dx, dy = random_point_in_disk(max_radius)
+      random_lat = lat + dy / one_degree
+      random_lon = lon + dx / ( one_degree * Math::cos(lat * Math::PI / 180) )
+      [random_lon, random_lat]
     end
 end
